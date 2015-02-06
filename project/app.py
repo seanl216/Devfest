@@ -1,10 +1,8 @@
 from flask import Flask, jsonify, render_template, request
-from flask.ext.googlemaps import GoogleMaps
 import requests
 import json
 
 app = Flask(__name__)
-GoogleMaps(app)
 app.config['DEBUG'] = True #disable me in deployment
 
 
