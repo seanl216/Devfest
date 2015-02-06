@@ -3,7 +3,6 @@ import requests
 import json
 
 app = Flask(__name__)
-GoogleMaps(app)
 app.config['DEBUG'] = True #disable me in deployment
 
 
