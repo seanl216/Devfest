@@ -1,25 +1,16 @@
 from flask import Flask, jsonify, render_template, request
+from flask.ext.googlemaps import GoogleMaps
 import requests
 import json
 
 app = Flask(__name__)
+GoogleMaps(app)
 app.config['DEBUG'] = True #disable me in deployment
+
 
 @app.route('/')
 def hello():
 	return render_template("hello.html")
-
-@app.route('/name')
-def my_name():
-	return "<h1>Sean</h1>"
-
-@app.route('/website')
-def my_website():
-	return "www.columbia.edu/~sl3497"
-
-@app.route('/jessica')
-def jessica():
-	return "Jennifer"
 
 @app.route('/search', methods=["GET", "POST"])
 def search():
@@ -30,6 +21,10 @@ def search():
 		return render_template("results.html", api_data=response_dict)
 	else:
 		return render_template("search.html")
+
+@app.route('/test')
+def test():
+	return render_template("test.html")
 
 def parse_response(response_dict):
 	parsed = dict()
