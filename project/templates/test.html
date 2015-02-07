@@ -26,6 +26,7 @@ function initialize() {
   	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
   	var pos2 = new google.maps.LatLng(40.807942, -73.962573);
 	var marker2 = new google.maps.Marker({
+		map: map,
 		position:pos2,
 	});
 	marker2.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
@@ -34,19 +35,23 @@ function initialize() {
 
   // Try HTML5 geolocation
   	if(navigator.geolocation) {
+  		var marker = null;
+
     	navigator.geolocation.getCurrentPosition(function(position) {
-      	var pos = new google.maps.LatLng(position.coords.latitude,
-                                       position.coords.longitude);
+      		var pos = new google.maps.LatLng(position.coords.latitude,
+            		                         position.coords.longitude);
 
-      	var marker = new google.maps.Marker({
-		  	position:pos,
-	  	});
+      		marker = new google.maps.Marker({
+		  		position:pos,
+		  		map: map,
+		  		animation: google.maps.Animation.BOUNCE,
+	  		});
 
-	  	marker.setMap(map);
-      	map.setCenter(pos);
-    }, function() {
-      	handleNoGeolocation(true);
-    });
+      		map.setCenter(pos);
+    	}, function() {
+      		handleNoGeolocation(true);
+    	});
+
   	} else { // Browser doesn't support Geolocation
     	handleNoGeolocation(false);
   	}
