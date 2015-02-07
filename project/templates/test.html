@@ -64,11 +64,11 @@ function nearMe() {
             Math.cos(rad(lat)) * Math.cos(rad(lat)) * Math.sin(dLong/2) * Math.sin(dLong/2);
         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         var d = R * c;
-        if (shortest == -1 || d < shortest ) {
+        if (shortest < 0 || d < shortest) {
             closest = i;
         }
     }
-    for(var i=0;i<markers.length; i++ ) {
+    for (var i=0;i<markers.length; i++ ) {
       if (i == closest)
         markers[closest].setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
       else
