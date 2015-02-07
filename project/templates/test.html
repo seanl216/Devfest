@@ -18,38 +18,66 @@
 // is probably because you have denied permission for location sharing.
 
 var map;
+var marker2;
+var geocoder;
+var infowindow;
+
+function codeAddress() {
+	var address = document.getElementById("address").value;
+	geocoder.geocode( { 'address': address}, function(results, status) {
+		if (status == google.maps.GeocoderStatus.OK) {
+			marker2 = new google.maps.Marker({
+			map: map,
+			position: results[0].geometry.location,
+			content: address,
+			icon:'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+		});
+			infowindow = new google.maps.InfoWindow({
+  				content: address
+  			});
+  			google.maps.event.addListener(marker2, 'click', function() {
+				infowindow.open(map,marker2);
+				google.maps.event.addListener(marker2, 'click', function() {
+					infowindow.close();
+				});
+  			});
+		} else {
+			alert("Geocode was not successful for the following reason: " + status);
+		}
+	});
+}
 
 function initialize() {
+	geocoder = new google.maps.Geocoder();
   	var mapOptions = {
     	zoom: 15
   	};
   	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
   	var pos2 = new google.maps.LatLng(40.807942, -73.962573);
-	var marker2 = new google.maps.Marker({
-		position:pos2,
-	});
-	marker2.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
-	marker2.setMap(map);
-
 
   // Try HTML5 geolocation
   	if(navigator.geolocation) {
+  		var marker = null;
+
     	navigator.geolocation.getCurrentPosition(function(position) {
-      	var pos = new google.maps.LatLng(position.coords.latitude,
-                                       position.coords.longitude);
+      		var pos = new google.maps.LatLng(position.coords.latitude,
+            		                         position.coords.longitude);
 
-      	var marker = new google.maps.Marker({
-		  	position:pos,
-	  	});
+      		marker = new google.maps.Marker({
+		  		position:pos,
+		  		map: map,
+		  		animation: google.maps.Animation.BOUNCE,
+	  		});
 
-	  	marker.setMap(map);
-      	map.setCenter(pos);
-    }, function() {
-      	handleNoGeolocation(true);
-    });
+      		map.setCenter(pos);
+    	}, function() {
+      		handleNoGeolocation(true);
+    	});
+
   	} else { // Browser doesn't support Geolocation
     	handleNoGeolocation(false);
   	}
+
 }
 
 function handleNoGeolocation(errorFlag) {
@@ -75,6 +103,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 {% endblock %}
 
 {% block body %}
+<<<<<<< HEAD
     <a href='test' class='navbar-brand'>Safety FriendZones</a>
 
         <ul class='nav navbar-nav navbar-right'>
@@ -93,4 +122,11 @@ google.maps.event.addDomListener(window, 'load', initialize);
       </div>
 
     
+=======
+<div>
+	<input id="address" type="textbox" value="605 115th Street, New York">
+    <input type="button" value="Encode" onclick="codeAddress()">
+</div>
+<div id="map-canvas"></div>
+>>>>>>> 0077dee3400a2b8b546e87cc65b5832623a3130c
 {% endblock %}

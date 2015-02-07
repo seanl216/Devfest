@@ -1,0 +1,28 @@
+body, html {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    background-color: black;
+    background-image: url(http://img2.findthebest.com/sites/default/files/2307/media/images/t2/Carolina_Blue_429637_i0.png);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding-top: 20px
+}
+
+
+
+.splash-page {
+    margin-top: 10%;
+}
+
+.splash-page .panel{
+    text-align: center;
+    background-color: rgba(242, 242, 242, 0.9);
+}
