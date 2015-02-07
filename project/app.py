@@ -2,6 +2,7 @@ from flask import Flask, jsonify, render_template, request
 from flask_bootstrap import Bootstrap
 import requests
 import json
+import reader as r
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -24,7 +25,8 @@ def search():
 
 @app.route('/test')
 def test():
-	return render_template("test.html")
+	havens = r.make_havens('safe_havens_db.txt')
+	return render_template("test.html", haven_data=json.dumps(havens))
 
 def parse_response(response_dict):
 	parsed = dict()
