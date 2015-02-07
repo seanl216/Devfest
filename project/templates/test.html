@@ -57,7 +57,7 @@ function nearMe() {
 
     var shortest = -1;
     var closest;
-    for(var i=0;i<markers.length; i++ ) { // haversine distance formula
+    for(var i=0;i<markers.length-1; i++ ) { // last is nay
         // map zoom around added marker
         bounds.extend(markers[i].position);
 
@@ -77,11 +77,11 @@ function nearMe() {
     map.setCenter(bounds.getCenter());
     map.fitBounds(bounds);
 
-    for (var i=0;i<markers.length; i++ ) {
+    for (var i=0;i<markers.length-1; i++ ) {
       if (i == closest)
-        markers[closest].setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
-      else if (i != 0) // if not your current position marker
-        markers[i].setIcon("{{ url_for('static', filename='css/images/nathan.jpg') }}");
+        markers[closest].setIcon("{{ url_for('static', filename='css/images/nay.png') }}");
+      else // if not your current position marker
+        markers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
     }  
 }
 
@@ -94,7 +94,7 @@ function codeHaven(name, address) {
       position: results[0].geometry.location,
       content: address,
       title: name,
-      icon:'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+      icon: "{{ url_for('static', filename='css/images/nay.png') }}"
     });
       // Store marker values in an array
       markers.push(marker);
@@ -134,6 +134,7 @@ function initialize() {
 		  		position:pos,
 		  		map: map,
 		  		animation: google.maps.Animation.BOUNCE,
+          icon: "{{ url_for('static', filename='css/images/nay.png') }}"
 	  		  });
           markers.push(marker);
 
