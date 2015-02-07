@@ -6,7 +6,7 @@
     <style>
       html, body, #map-canvas {
         height: 100%;
-        margin: 0px;
+        margin: 0px 25px 10px;
         padding: 0px
       }
     </style>
@@ -23,6 +23,54 @@ var geocoder;
 var names = ["137 Bar", "Bahamas Deli"];
 var addresses = ["3379 Broadway, New York, NY 10031", "1622 Amsterdam Avenue, New York, NY 10031"];
 var havens = [];
+var markers = [];
+
+
+function findNearMe(location) {
+  var bounds = new google.maps.LatLngBounds();
+  
+    for (var i=0; i<markers.length;i++) {
+        bounds.extend(marker.position);
+
+    }
+
+}
+
+function rad(x) {return x*Math.PI/180;}
+
+function nearMe() {
+  
+    var my_marker = null;
+    var lat;
+    var lng;
+
+    navigator.geolocation.getCurrentPosition(function(position) {
+          // beta
+          lat = position.coords.latitude;
+          lng = position.coords.longitude;
+    });
+  
+    
+    var R = 6371; // radius of earth in km
+    var distances = [];
+    var closest = -1;
+    for(var i=0;i<markers.length; i++ ) {
+        var mlat = markers[i].position.lat();
+        var mlng = markers[i].position.lng();
+        var dLat  = rad(mlat - lat);
+        var dLong = rad(mlng - lng);
+        var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(rad(lat)) * Math.cos(rad(lat)) * Math.sin(dLong/2) * Math.sin(dLong/2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        var d = R * c;
+        distances[i] = d;
+        if ( closest == -1 || d < distances[closest] ) {
+            closest = i;
+        }
+    }
+    markers[closest].setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+    
+}
 
 
 function codeHaven(name, address) {
@@ -35,6 +83,11 @@ function codeHaven(name, address) {
       title: name,
       icon:'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
     });
+      
+      // Store marker values in an array
+      markers.push(marker);
+      //window.alert(marker.position.coords.latitude);
+
       var infowindow = new google.maps.InfoWindow({
           content: name
         });
@@ -50,8 +103,10 @@ function codeHaven(name, address) {
 function initialize() {
 	geocoder = new google.maps.Geocoder();
   	var mapOptions = {
-    	zoom: 15
+    	zoom: 15,
+      scrollwheel:false
   	};
+
   	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
   	var pos2 = new google.maps.LatLng(40.807942, -73.962573);
 
@@ -125,10 +180,10 @@ google.maps.event.addDomListener(window, 'load', initialize);
     <div class='container-fluid well well-lg'>
       
           <div class='col-md-12 col-lg-12 text-center'>
-            <h2>Navigation</h2>
+            <h2>Safety FriendZones</h2>
             <p class='lead'>Easily contact public safety or find the nearest safe zone</p>
             <button type='button' class='btn btn-lg btn-primary'>Public Safety Contact</button>
-            <button type='button' class='btn btn-lg btn-danger'>Nearest Safe Zone</button>
+            <button type='button' class='btn btn-lg btn-danger' onclick="nearMe()">Nearest Safe Zones</button>
           </div>
      
     </div>
