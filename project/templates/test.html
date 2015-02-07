@@ -69,8 +69,13 @@ function initialize() {
     	}, function() {
       		handleNoGeolocation(true);
     	});
-      codeHaven("Syed", "47 Claremont Ave, New York");
-      codeHaven("Schapiro", "605 115th Street, New York");
+
+      var havens = {{ haven_data|tojson|safe }};
+      window.alert(havens[0]["name"]);
+      var hLength = 3;
+      for (var i = 0; i < hLength; i++) {
+        codeHaven(havens[i]["name"], havens[i]["address"]);
+      }
   	} else { // Browser doesn't support Geolocation
     	handleNoGeolocation(false);
   	}
