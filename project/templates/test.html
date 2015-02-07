@@ -6,13 +6,8 @@
     <style>
       html, body, #map-canvas {
         height: 100%;
-<<<<<<< HEAD
-        margin: 0px;
-        padding: 0px; 
-=======
         margin: 0px 25px 10px;
         padding: 0px
->>>>>>> 8565234db3f71145d21594dc4b96312e32a9e0de
       }
     </style>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
@@ -27,13 +22,11 @@ var geocoder;
 var names = ["137 Bar & Grill", "Bahamas Deli", "Bettolona Italian Restaurant", "Chapati House Simply Indian", "Claremont Chemists", "Covo Trattoria Pizzeria", "Dinosaur BBQ", "Fairway Supermarket", "Floridita Cuban Cuisine", "Duane Reade"];
 var addresses = ["3379 Broadway, New York, NY 10031", "1622 Amsterdam Avenue, New York, NY 10031", "3143 Broadway, New York, NY 10027", "3153 Broadway, New York, NY 10027", "3181 Broadway, New York, NY 10027", "701 West 135th Street, New York, NY 10031", "700 West 125th Street, New York, NY 10027", "2328 12th Avenue, New York, NY 10027", "2276 12th Avenue, New York, NY 10027", "568 West 125th Street, New York, NY 10027"];
 var havens = [];
-<<<<<<< HEAD
 var myLat;
 var myLong;
-=======
 var markers = [];
 
-
+/*
 function findNearMe(location) {
   var bounds = new google.maps.LatLngBounds();
   
@@ -42,7 +35,7 @@ function findNearMe(location) {
 
     }
 
-}
+}*/
 
 function rad(x) {return x*Math.PI/180;}
 
@@ -60,8 +53,8 @@ function nearMe() {
   
     
     var R = 6371; // radius of earth in km
-    var distances = [];
-    var closest = -1;
+    var shortest = -1;
+    var closest;
     for(var i=0;i<markers.length; i++ ) {
         var mlat = markers[i].position.lat();
         var mlng = markers[i].position.lng();
@@ -71,15 +64,18 @@ function nearMe() {
             Math.cos(rad(lat)) * Math.cos(rad(lat)) * Math.sin(dLong/2) * Math.sin(dLong/2);
         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         var d = R * c;
-        distances[i] = d;
-        if ( closest == -1 || d < distances[closest] ) {
+        if (shortest == -1 || d < shortest ) {
             closest = i;
         }
     }
-    markers[closest].setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+    for(var i=0;i<markers.length; i++ ) {
+      if (i == closest)
+        markers[closest].setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+      else
+        markers[i].setIcon('http://www.geocodezip.com/mapIcons/small_green_dot.png');
+    }
     
 }
->>>>>>> 8565234db3f71145d21594dc4b96312e32a9e0de
 
 
 function codeHaven(name, address) {
@@ -92,15 +88,10 @@ function codeHaven(name, address) {
       title: name,
       icon:'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
     });
-<<<<<<< HEAD
-      havens.push({name: name, position: results[0].geometry.location})
-=======
-      
       // Store marker values in an array
       markers.push(marker);
       //window.alert(marker.position.coords.latitude);
 
->>>>>>> 8565234db3f71145d21594dc4b96312e32a9e0de
       var infowindow = new google.maps.InfoWindow({
           content: name
         });
@@ -116,12 +107,8 @@ function codeHaven(name, address) {
 function initialize() {
 	geocoder = new google.maps.Geocoder();
   	var mapOptions = {
-<<<<<<< HEAD
-    	zoom: 14
-=======
-    	zoom: 15,
+    	zoom: 14,
       scrollwheel:false
->>>>>>> 8565234db3f71145d21594dc4b96312e32a9e0de
   	};
 
   	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
