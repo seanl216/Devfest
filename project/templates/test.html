@@ -106,7 +106,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 {% block body %}
      <div class='navbar navbar-default navbar-static-top'>
-    <div class='container'>
+    <div class='container-fluid'>
     <a href='test' class='navbar-brand'>Safety FriendZones</a>
 
         <ul class='nav navbar-nav navbar-right'>
@@ -116,14 +116,16 @@ google.maps.event.addDomListener(window, 'load', initialize);
       </div>
     </div>
     
-      <div class='row well well-lg'>
+    <div class='container-fluid well well-lg'>
+      
           <div class='col-md-12 col-lg-12 text-center'>
             <h2>Navigation</h2>
             <p class='lead'>Easily contact public safety or find the nearest safe zone</p>
-            <button type='button' class='btn btn-lg btn-default'>Public Safety Contact</button>
-            <button type='button' class='btn btn-lg btn-primary'>Nearest Safe Zone</button>
+            <button type='button' class='btn btn-lg btn-primary'>Public Safety Contact</button>
+            <button type='button' class='btn btn-lg btn-danger'>Nearest Safe Zone</button>
           </div>
-      </div>
+     
+    </div>
       
   
   <div id="map-canvas"></div>
