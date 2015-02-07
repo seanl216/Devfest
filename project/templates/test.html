@@ -7,7 +7,7 @@
       html, body, #map-canvas {
         height: 100%;
         margin: 0px;
-        padding: 0px
+        padding: 0px; 
       }
     </style>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
@@ -18,11 +18,12 @@
 // is probably because you have denied permission for location sharing.
 
 var map;
-var marker2;
 var geocoder;
-var names = ["137 Bar", "Bahamas Deli"];
-var addresses = ["3379 Broadway, New York, NY 10031", "1622 Amsterdam Avenue, New York, NY 10031"];
+var names = ["137 Bar & Grill", "Bahamas Deli", "Bettolona Italian Restaurant", "Chapati House Simply Indian", "Claremont Chemists", "Covo Trattoria Pizzeria", "Dinosaur BBQ", "Fairway Supermarket", "Floridita Cuban Cuisine", "Duane Reade"];
+var addresses = ["3379 Broadway, New York, NY 10031", "1622 Amsterdam Avenue, New York, NY 10031", "3143 Broadway, New York, NY 10027", "3153 Broadway, New York, NY 10027", "3181 Broadway, New York, NY 10027", "701 West 135th Street, New York, NY 10031", "700 West 125th Street, New York, NY 10027", "2328 12th Avenue, New York, NY 10027", "2276 12th Avenue, New York, NY 10027", "568 West 125th Street, New York, NY 10027"];
 var havens = [];
+var myLat;
+var myLong;
 
 
 function codeHaven(name, address) {
@@ -35,6 +36,7 @@ function codeHaven(name, address) {
       title: name,
       icon:'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
     });
+      havens.push({name: name, position: results[0].geometry.location})
       var infowindow = new google.maps.InfoWindow({
           content: name
         });
@@ -50,7 +52,7 @@ function codeHaven(name, address) {
 function initialize() {
 	geocoder = new google.maps.Geocoder();
   	var mapOptions = {
-    	zoom: 15
+    	zoom: 14
   	};
   	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
   	var pos2 = new google.maps.LatLng(40.807942, -73.962573);
@@ -58,34 +60,26 @@ function initialize() {
   // Try HTML5 geolocation
   	if(navigator.geolocation) {
   		var marker = null;
-
     	navigator.geolocation.getCurrentPosition(function(position) {
       		var pos = new google.maps.LatLng(position.coords.latitude,
             		                         position.coords.longitude);
-
+          myLat = position.coords.latitude;
+          myLong = position.coords.longitude;
       		marker = new google.maps.Marker({
 		  		position:pos,
 		  		map: map,
 		  		animation: google.maps.Animation.BOUNCE,
-	  		});
+	  		  });
 
       		map.setCenter(pos);
     	}, function() {
       		handleNoGeolocation(true);
     	});
 
-      codeHaven("asdf", "47 Claremont Ave, New York");
-      for (var i = 0; i < 2; i++) {
-          havens.push({
-              name: names[i],
-              address: addresses[i]
-          });
+      var len = names.length;
+      for (var i = 0; i < len; i++) {
+          codeHaven(names[i], addresses[i]);
       }
-      for (var i = 0; i < 2; i++) {
-          codeHaven(havens[i].name, havens[i].address);
-      }
-
-      
 
   	} else { // Browser doesn't support Geolocation
     	handleNoGeolocation(false);
