@@ -4,6 +4,7 @@ def make_havens(filename):
 	havens = []
 	line = haven_file.readline()
 	while line != '':
+		print line
 		haven = make_haven(line)
 		if haven != None:
 			havens.append(haven)

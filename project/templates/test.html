@@ -20,6 +20,10 @@
 var map;
 var marker2;
 var geocoder;
+var names = ["137 Bar", "Bahamas Deli"];
+var addresses = ["3379 Broadway, New York, NY 10031", "1622 Amsterdam Avenue, New York, NY 10031"];
+var havens = [];
+
 
 function codeHaven(name, address) {
   geocoder.geocode( { 'address': address}, function(results, status) {
@@ -69,7 +73,20 @@ function initialize() {
     	}, function() {
       		handleNoGeolocation(true);
     	});
-      codeHaven("Syed", "47 Claremont Ave, New York");
+
+      codeHaven("asdf", "47 Claremont Ave, New York");
+      for (var i = 0; i < 2; i++) {
+          havens.push({
+              name: names[i],
+              address: addresses[i]
+          });
+      }
+      for (var i = 0; i < 2; i++) {
+          codeHaven(havens[i].name, havens[i].address);
+      }
+
+      
+
   	} else { // Browser doesn't support Geolocation
     	handleNoGeolocation(false);
   	}
