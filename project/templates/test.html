@@ -100,31 +100,27 @@ google.maps.event.addDomListener(window, 'load', initialize);
 {% endblock %}
 
 {% block body %}
-
+     <div class='navbar navbar-default navbar-static-top'>
+    <div class='container'>
     <a href='test' class='navbar-brand'>Safety FriendZones</a>
 
-        <ul class='nav navbar-nav'>
+        <ul class='nav navbar-nav navbar-right'>
           <li><a href='http://www.columbia.edu/cu/publicsafety/SafeHavenLocations.pdf'>List All</a></li>
           <li><a href='test'>Public Safety Info</a></li>
         </ul>
       </div>
     </div>
     
-<div class='row well well-lg'>
-        <div class='col-md-12 col-lg-12 text-center'>
-          <h2>Navigation</h2>
-          <p class='lead'>Easily contact public safety or find the nearest safe zone</p>
-          <button type='button' class='btn btn-lg btn-default'>Public Safety Contact</button>
-          <button type='button' class='btn btn-lg btn-primary'>Nearest Safe Zone</button>
-        </div>
-</div>
+      <div class='row well well-lg'>
+          <div class='col-md-12 col-lg-12 text-center'>
+            <h2>Navigation</h2>
+            <p class='lead'>Easily contact public safety or find the nearest safe zone</p>
+            <button type='button' class='btn btn-lg btn-default'>Public Safety Contact</button>
+            <button type='button' class='btn btn-lg btn-primary'>Nearest Safe Zone</button>
+          </div>
+      </div>
+      
   
   <div id="map-canvas"></div>
        
-
-
-
-
-
-
 {% endblock %}
