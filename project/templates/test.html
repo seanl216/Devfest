@@ -20,31 +20,27 @@
 var map;
 var marker2;
 var geocoder;
-var infowindow;
 
-function codeAddress() {
-	var address = document.getElementById("address").value;
-	geocoder.geocode( { 'address': address}, function(results, status) {
-		if (status == google.maps.GeocoderStatus.OK) {
-			marker2 = new google.maps.Marker({
-			map: map,
-			position: results[0].geometry.location,
-			content: address,
-			icon:'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
-		});
-			infowindow = new google.maps.InfoWindow({
-  				content: address
-  			});
-  			google.maps.event.addListener(marker2, 'click', function() {
-				infowindow.open(map,marker2);
-				google.maps.event.addListener(marker2, 'click', function() {
-					infowindow.close();
-				});
-  			});
-		} else {
-			alert("Geocode was not successful for the following reason: " + status);
-		}
-	});
+function codeHaven(name, address) {
+  geocoder.geocode( { 'address': address}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      var marker = new google.maps.Marker({
+      map: map,
+      position: results[0].geometry.location,
+      content: address,
+      title: name,
+      icon:'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+    });
+      var infowindow = new google.maps.InfoWindow({
+          content: name
+        });
+        google.maps.event.addListener(marker, 'click', function() {
+        infowindow.open(map,marker);
+        });
+    } else {
+      alert("Geocode was not successful for the following reason: " + status);
+    }
+  });
 }
 
 function initialize() {
@@ -73,7 +69,8 @@ function initialize() {
     	}, function() {
       		handleNoGeolocation(true);
     	});
-
+      codeHaven("Syed", "47 Claremont Ave, New York");
+      codeHaven("Schapiro", "605 115th Street, New York");
   	} else { // Browser doesn't support Geolocation
     	handleNoGeolocation(false);
   	}
